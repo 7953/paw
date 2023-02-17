@@ -128,6 +128,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
+RAZOR_KEY_ID = "rzp_test_W8RGjInsDaKQiY"
+RAZOR_KEY_SECRET = "DkNW0S4KbIGO9x25IPRyyDcu"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

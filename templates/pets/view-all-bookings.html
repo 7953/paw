@@ -15,7 +15,8 @@
                     <p>Booked on {{b.Booking_Date}} <br> at {{b.Booking_Time}} </p>
 
                     <div>
-                        <a class="btn btn-danger mt-4" href=""> Cancel Appoinment </a>
+                        <a class="btn btn-danger mt-4" href="{% url 'user_cancel_booking' b.id %}"> Cancel Appoinment
+                        </a>
                     </div>
                 </div>
             </div>
