@@ -27,7 +27,12 @@ def index(request):
 
 @pet_only
 def pet_home(request):
-    return render(request, "pets/pet-home.html")
+    pet = PetProfile.objects.filter(user_ID=request.user.id)
+    if(len(pet) == 0):
+        pet = False
+    else:
+        pet = pet[0]
+    return render(request, "pets/pet-home.html",{"pet":pet})
 
 @not_auth_pet
 def signup(request):  # first get the user form from forms.py to render with signup.html
@@ -100,7 +105,14 @@ def view_user_profile(request):
         return redirect("add_user_profile")
     return render(request,"pets/pet-profile.html",{"pet":pet[0]})
 
+def services_page(request):
+    return render(request,"services.html")
+
 @pet_only
+def user_services_page(request):
+    return render(request,"pets/services.html")
+
+
 def view_all_doctors(request):
     all_doctors = DoctorProfile.objects.all()
     return render(request,"pets/view-all-doctors.html",{"all_doctors":all_doctors})
@@ -142,6 +154,9 @@ def user_cancel_booking(request,id):
 
 @pet_only
 def add_vaccine(request):
+    pet = PetProfile.objects.filter(user_ID=request.user.id)
+    if(len(pet) == 0):
+        return redirect("add_user_profile")
     form = AddVaccineForm()
     if request.method == "POST":
         add_form = AddVaccineForm(request.POST,request.FILES)
@@ -170,7 +185,7 @@ def payment_page(request):
 
     # order id of newly created order.
     razorpay_order_id = razorpay_order['id']
-    callback_url = 'http://127.0.0.1:8001/paymenthandler/'
+    callback_url = 'http://127.0.0.1:8000/paymenthandler/'
  
     # we need to pass these details to frontend.
     context = {}

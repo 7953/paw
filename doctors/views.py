@@ -96,7 +96,7 @@ def view_doctor_appoinments(request):
 
 @doctor_only
 def view_patient(request,id):
-    pet = PetProfile.objects.get(id=id)
+    pet = PetProfile.objects.get(user_ID=id)
     all_vaccines = Vaccination.objects.filter(user_ID=pet.user_ID)
     return render(request,"doctors/patient-profile.html",{"pet":pet,"all_vaccines":all_vaccines})
 
