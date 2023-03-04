@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from .forms import UserAddForm,AddPetForm,AddBookingForm,AddVaccineForm
 from .models import PetProfile,Booking,Vaccination
 from doctors.models import DoctorProfile
+from datetime import datetime
 
 from .decorators import pet_only, not_auth_pet
 import razorpay
@@ -27,12 +28,20 @@ def index(request):
 
 @pet_only
 def pet_home(request):
+    print("pet home")
     pet = PetProfile.objects.filter(user_ID=request.user.id)
+    vaccine = Vaccination.objects.all().last()
+    today  = datetime.today().date()
+    print(vaccine.Vaccinated_Date == str(today.replace(year=today.year - 1)))
     if(len(pet) == 0):
         pet = False
     else:
         pet = pet[0]
-    return render(request, "pets/pet-home.html",{"pet":pet})
+    vaccine_alert=False
+    if(vaccine.Vaccinated_Date == str(today.replace(year=today.year - 1))):
+        vaccine_alert="It's Time for your next vaccine"
+    
+    return render(request, "pets/pet-home.html",{"pet":pet,"vaccine_alert":vaccine_alert})
 
 @not_auth_pet
 def signup(request):  # first get the user form from forms.py to render with signup.html
@@ -58,8 +67,7 @@ def signup(request):  # first get the user form from forms.py to render with sig
                 messages.info(request, "Pet Account Created")
                 return redirect("signin")
         else:
-            messages.info(
-                request, "Fom validation Failed!!! Try a defferent password.")
+            messages.info( request, "Fom validation Failed!!! Try a defferent password.")
 
     return render(request, "pets/signup.html", {"signup_form": signup_form})
 
@@ -76,6 +84,7 @@ def signin(request):
             login(request, user)
             return redirect("pet_home")
         else:
+            # print("LOgin Failed")
             messages.info(request, "Username or password incorrect ")
             return redirect("signin")
     return render(request, "pets/signin.html")
