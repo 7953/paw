@@ -1,3 +1,3 @@
-# paw-django
+# paw
 
-pet care application built with django
+pet care application 
