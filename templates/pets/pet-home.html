@@ -25,14 +25,7 @@
             z-index: 999 !important;
         }
     </style>
-    {% if vaccine_alert != False %}
-    <div class="alert alert-primary alert-dismissible fade show" role="alert">
-        <strong>Vaccine Alert!</strong> {{vaccine_alert}}
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    {% endif %}
+
     <!-- header -->
     <header id="site-header" class="header fixed-top">
         <div class="container">
@@ -125,7 +118,14 @@
 
     {% block content %}
 
-
+    {% if vaccine_alert != False %}
+    <div class="alert alert-primary alert-dismissible fade show" role="alert">
+        <strong>Vaccine Alert!</strong> {{vaccine_alert}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endif %}
     <!-- //header -->
     <!-- banner-section -->
     <section id="home" class="w3l-banner pt-5">
